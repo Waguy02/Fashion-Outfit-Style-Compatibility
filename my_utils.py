@@ -4,6 +4,9 @@ from enum import Enum
 from itertools import islice
 import numpy as np
 
+from constants import IMAGES_DATA_DIR, DATA_DIR
+
+
 def read_json(path_json):
     with open(path_json, encoding='utf8') as json_file:
         return json.load(json_file)
@@ -70,3 +73,14 @@ class Averager:
     def reset(self):
         self.current_total = 0.0
         self.iterations = 0.0
+
+
+def get_item_image(item):
+    return os.path.join(IMAGES_DATA_DIR,f"{item}.jpg")
+
+
+
+def get_item_categories():
+    metadata_files=os.path.join(DATA_DIR, "polyvore_item_metadata.json")
+    metadata=read_json(metadata_files)
+    return {item_id: int(d["category_id"]) for item_id, d in metadata.items()}
